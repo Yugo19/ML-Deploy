@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+    testing:
+      container_name: CI
+      build:
+        context: .
+        dockerfile: Dockerfile.CI
