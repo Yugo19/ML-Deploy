@@ -1,0 +1,19 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+
+    - name: Test with pytest
+      run: |
+        docker-compose -f _cid_pipeline.yaml up --build -d
