@@ -7,9 +7,8 @@ services:
     build: .
     ports:
       - "8001:8001"
-    environment:
-    - OPENAI_KEY=${OPENAI_KEY}
-    - API_SERVER_IP=${API_SERVER_IP}
+    env_file:
+      - ~/.cv_deploy.env
     networks:
       micro-services-network:
         ipv4_address: 192.168.0.10
@@ -31,8 +30,8 @@ services:
       context: .
       dockerfile: Dockerfile.Celery
     command: celery -A app.services.celery.celery_config.celery_app worker --loglevel=info
-    environment:
-    - OPENAI_KEY=${OPENAI_KEY}
+    env_file:
+      - ~/.cv_deploy.env
     depends_on:
       - redis
       - fastapi-app

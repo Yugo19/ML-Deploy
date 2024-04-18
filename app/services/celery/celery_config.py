@@ -4,8 +4,8 @@ def make_celery():
     # Initialize Celery
     celery = Celery(
         'worker',
-        backend='redis://yugo:Maoene@192.168.0.7:6379/0',
-        broker='redis://yugo:Maoene@192.168.0.7:6379/0'
+        backend='redis://yugo:Maoene@redis:6379/0',
+        broker='redis://yugo:Maoene@redis:6379/0'
     )
     return celery
 

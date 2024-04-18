@@ -1,4 +1,4 @@
-name: Testing
+name: Deployment
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -16,4 +16,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        docker-compose -f _ci_pipeline.yml up --build -d
+        docker-compose -f _cid_pipeline.yaml up --build -d

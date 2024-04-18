@@ -7,3 +7,5 @@ services:
       build:
         context: .
         dockerfile: Dockerfile.CI
+      env_file:
+        - ~/.cv_deploy.env

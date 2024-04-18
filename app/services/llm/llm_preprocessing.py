@@ -17,7 +17,7 @@ def chain_workflow(openai_api_key):
     llm_name = "gpt-3.5-turbo"
 
     # persist_directory
-    persist_directory = 'vector_index/' 
+    persist_directory = os.environ.get('VECTOR_INDEX_PATH','vector_index/') 
 
 
     # Load OpenAI embedding model
@@ -25,11 +25,11 @@ def chain_workflow(openai_api_key):
 
 
     # Check if the file exists
-    if not os.path.exists("vector_index/chroma.sqlite3"):
+    if not os.path.exists(os.environ.get("DB_PATH","vector_index/chroma.sqlite3")):
         # If it doesn't exist, create it
 
         # load document
-        file = "documents/DoniBara.pdf"
+        file = os.environ.get("DOCUMENTS_PATH","documents/DoniBara.pdf")
         loader = PyPDFLoader(file)
         documents = loader.load()
 
@@ -38,7 +38,7 @@ def chain_workflow(openai_api_key):
         splits = text_splitter.split_documents(documents)
 
         # persist_directory
-        persist_directory = 'vector_index/'
+        #persist_directory = 'vector_index/'
 
         vectordb = Chroma.from_documents(
             documents=splits,
