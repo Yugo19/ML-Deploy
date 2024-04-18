@@ -1,3 +1,4 @@
+import os
 import torch
 from ..cnn.cnn_preprocess import preprocess_image
 from ..cnn.cnn_model import m_a_model
@@ -6,7 +7,7 @@ from ..cnn.cnn_model import m_a_model
 # Initialize the VGG16 model with batch-normalized weights
 model = m_a_model(6)
 # Load state dict from a pre-trained model
-loaded_state_dict = torch.load('cv_model/TCM1.pth')
+loaded_state_dict = torch.load(os.environ.get('MODEL_PATH','cv_model/TCM1.pth'))
 # Load the updated state dict into the model
 model.load_state_dict(loaded_state_dict)
 
