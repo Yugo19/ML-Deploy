@@ -1,0 +1,23 @@
+site_name: My Docs
+
+nav:
+  - Welcom: index.md
+  - Install and run: install.md
+  - System Arch: system-arch.md
+  - cnn service : cnn.md
+  - llm service : llm.md
+  - celery config and tasks : celery.md
+  - Pydantic model : models.md
+  - contrubition guideline: contrubition-guiline.md
+
+
+theme: 
+  name: 'mkdocs'
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+          python:
+            paths: [app]

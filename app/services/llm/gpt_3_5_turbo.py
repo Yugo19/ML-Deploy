@@ -1,24 +1,41 @@
 import os
 from openai import OpenAI
 
+# Initialize the OpenAI client with an API key from environment variables
 client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY")
-    api_key=os.getenv("OPENAI_KEY"),
+    api_key=os.getenv("OPENAI_KEY"),  # Defaults to retrieving the API key from the "OPENAI_KEY" environment variable
 )
 
-
+# Initial message from the assistant in the chat history
 messages = [{"role": "assistant", "content": "How can I help?"}]
 
-# Function to display the chat history
 def display_chat_history(messages):
+    """
+    Prints the chat history to the console. Each message is displayed with the sender's role and content.
+    
+    Args:
+        messages (list of dict): A list of dictionaries where each dictionary represents a message in the chat history.
+                                 Each message has a 'role' key indicating who sent the message and a 'content' key with the message text.
+    """
     for message in messages:
         print(f"{message['role'].capitalize()}: {message['content']}")
 
-# Function to get the assistant's response
 def get_assistant_response(messages):
+    """
+    Sends the current chat history to the OpenAI API to generate a response from the assistant.
+    
+    Args:
+        messages (list of dict): The current chat history as a list of message dictionaries.
+    
+    Returns:
+        str: The assistant's response as a string.
+    
+    Raises:
+        Exception: Prints an error message if the API call fails and returns a default error response.
+    """
     try:
         r = client.chat.completions.create(
-            model="gpt-4",  # Update this based on the model you intend to use
+            model="gpt-4",  # The model version to use for generating responses, adjust as needed
             messages=[{"role": m["role"], "content": m["content"]} for m in messages],
         )
         response = r.choices[0].message.content
@@ -27,8 +44,16 @@ def get_assistant_response(messages):
         print(f"An error occurred: {e}")
         return "Sorry, I can't process your request right now."
 
-# Function to get a response to a user's prompt
 def get_response(prompt: str):
+    """
+    Processes a user's prompt to generate and display the assistant's response using the OpenAI GPT model.
+    
+    Args:
+        prompt (str): The user's message to which the assistant should respond.
+    
+    Returns:
+        str: The assistant's response, which is also added to the chat history and displayed along with the rest of the conversation.
+    """
     # Add the user's message to the chat history
     messages.append({"role": "user", "content": prompt})
     
