@@ -34,7 +34,7 @@ def predict(image):
         predicted_class = torch.argmax(probabilities, dim=0)  # Determine the predicted class
 
         predict_label_index = predicted_class.item()
-        predict_label = categories[int(predict_label_index)]  # Get the category name from the index
+        predict_label = categories[int(predict_label_index)]# Get the category name from the index
 
         return predict_label, probabilities.tolist()  # Return the predicted category and probabilities
 

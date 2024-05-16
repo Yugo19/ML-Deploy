@@ -1,1 +1,1 @@
-from .main_router import predict_incident_type
+from .main_router import prediction_endpoint
