@@ -10,3 +10,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 RUN pytest --cov=app --cov-report term-missing
+RUN coverage report

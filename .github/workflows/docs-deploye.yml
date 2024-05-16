@@ -1,0 +1,36 @@
+name: Deploy MkDocs Site
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+      contents: write
+      pages: write
+      id-token: write
+      
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2 # Check if there's a newer version
+      - name: Setup Python
+        uses: actions/setup-python@v2 # Check if there's a newer version
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+            pip install mkdocs mkdocstrings mkdocs-material mkdocstrings-python
+      - name: Build MkDocs site
+        run: mkdocs build
+      - name: gitconfig
+        run: |
+            git config user.name github-actions[bot]
+            git config user.email github-actions[bot]@users.noreply.github.com
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # Check if there's a newer version
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          publish_dir: ./site
