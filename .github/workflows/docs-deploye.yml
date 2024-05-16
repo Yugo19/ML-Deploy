@@ -3,7 +3,7 @@ name: Deploy MkDocs Site
 on:
   push:
     branches:
-      - main
+      - gh-pages
 
 permissions:
       contents: write
