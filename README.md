@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-markdown-open.svg" width="100" alt="project-logo">
+  <img src="https://dashboard.map-action.com/static/media/logo.ff03b7a9.png" width="100" alt="project-logo">
 </p>
 <p align="center">
     <h1 align="center">ML-DEPLOY</h1>
 </p>
 <p align="center">
-    <em>Empower ML innovation, deploy with confidence.</em>
+    <em>FastAPI wrapper for Map Action Model deployment.</em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/223MapAction/ML-Deploy.git?style=flat-square&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
@@ -43,7 +43,6 @@
   - [Installation](#installation)
   - [Usage](#usage)
   - [Tests](#tests)
-- [Project Roadmap](#project-roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
@@ -225,23 +224,15 @@ ML-Deploy is a versatile open-source project designed for seamless deployment an
 
 > Run ML-Deploy using the command below:
 > ```console
-> $ python main.py
+> $ uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
 > ```
 
 ###  Tests
 
 > Run the test suite using the command below:
 > ```console
-> $ pytest
+> $ pytest --cov=app --cov-report term-missing
 > ```
-
----
-
-##  Project Roadmap
-
-- [X] `► INSERT-TASK-1`
-- [ ] `► INSERT-TASK-2`
-- [ ] `► ...`
 
 ---
 

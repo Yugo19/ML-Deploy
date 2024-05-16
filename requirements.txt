@@ -24,3 +24,4 @@ psycopg2-binary
 pytest==8.1.1
 pytest-cov
 pytest-asyncio
+pytest-xdist
