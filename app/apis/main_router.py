@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, FastAPI, Query, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, HTTPException, FastAPI, Query, WebSocket, WebSocketDisconnect, status
 from fastapi.responses import JSONResponse
 from ..services import predict, contextualize, chat_bot, get_response, perform_prediction, fetch_contextual_information, celery_app
 from ..models import ImageModel
@@ -13,11 +13,12 @@ router = APIRouter()
 
 base_url = "http://139.144.63.238"
 
+
 @router.get('/')
 def index():
     """
     Returns a greeting message indicating the API is operational.
-    
+
     Returns:
         dict: A dictionary with a message key indicating the service status.
     """
@@ -34,7 +35,7 @@ def index():
 
     #     Returns:
     #         JSONResponse: A JSON response containing the prediction, probabilities of each predicted class, contextual information, impact analysis, and proposed solutions.
-        
+
     #     Raises:
     #         HTTPException: An error response with status code 500 if the image could not be fetched or if there is an issue during processing.
     #     """
@@ -101,24 +102,24 @@ async def prediction_endpoint(websocket: WebSocket):
     """
     origin = websocket.headers.get('origin')
     allowed_origins = ["http://localhost:5432"]
-    
+
     if origin not in allowed_origins:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         return
-    
+
     await manager.connect(websocket)
     try:
         while True:
-            
-            
+
             data = await websocket.receive_json()
             image_path = data.get('image_name')
             sensitive_structures = data.get('sensitive_structures')
             incident_id = data.get('incident_id')
-            
+
             response = requests.get(base_url + image_path)
             if response.status_code != 200:
-                raise HTTPException(status_code=500, detail=f"Failed to fetch image from {base_url + image_path}")
+                raise HTTPException(
+                    status_code=500, detail=f"Failed to fetch image from {base_url + image_path}")
 
             image = response.content
 
@@ -126,22 +127,25 @@ async def prediction_endpoint(websocket: WebSocket):
             prediction, probabilities = predict(image)
 
             # Fetch contextual information, impact, and solution
-            get_context = get_response(f"What is a {prediction} in an African zone?")
-            impact = get_response(f"What is the impact of {prediction} on {sensitive_structures}")
-            piste_solution = get_response("What are the possible solutions for the previous case? Assuming it's managed by a local community.")
-            
+            get_context = get_response(
+                f"What is a {prediction} in an African zone?")
+            impact = get_response(
+                f"What is the impact of {prediction} on {sensitive_structures}")
+            piste_solution = get_response(
+                "What are the possible solutions for the previous case? Assuming it's managed by a local community.")
+
             query = """
              INSERT INTO "Mapapi_prediction" (incident_id, incident_type, piste_solution, impact_potentiel, context)
              VALUES (:incident_id, :incident_type :piste_solution, :impact_potentiel, :context);
              """
             values = {
-                 "incident_id": data.incident_id,
-                 "incideent_type": prediction,
-                 "piste_solution": piste_solution,
-                 "impact_potentiel": impact,
-                 "context": get_context
-             }
-            
+                "incident_id": data.incident_id,
+                "incideent_type": prediction,
+                "piste_solution": piste_solution,
+                "impact_potentiel": impact,
+                "context": get_context
+            }
+
             result = await database.execute(query=query, values=values)
 
             # Send the result back to the client
