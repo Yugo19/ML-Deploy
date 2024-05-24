@@ -61,6 +61,10 @@ The system uses fastApi endpoint to make prediction using the computer vison and
 
 ![Selection_071](https://github.com/223MapAction/ML-Deploy/assets/64170643/92f6be3c-7155-4548-9fce-185fd8e54b09)
 
+## How it works
+
+![Selection_067](https://github.com/223MapAction/ML-Deploy/assets/64170643/317e19d8-8b98-4629-93f0-3cbd7326eb77)
+
 
 
 ---
