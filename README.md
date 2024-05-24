@@ -56,6 +56,15 @@ ML-Deploy is a versatile open-source project designed for seamless deployment an
 
 ---
 
+## System Arch
+The system uses fastApi endpoint to make prediction using the computer vison and the summurization using and LLM
+
+![Selection_071](https://github.com/223MapAction/ML-Deploy/assets/64170643/92f6be3c-7155-4548-9fce-185fd8e54b09)
+
+
+
+---
+
 ##  Features
 
 |    |    Feature        | Description                                                                                                                       |
