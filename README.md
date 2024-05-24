@@ -53,6 +53,7 @@
 ##  Overview
 
 ML-Deploy is a versatile open-source project designed for seamless deployment and scalable management of machine learning models. Leveraging FastAPI, Celery, and Transformers, it offers robust features such as asynchronous task management, context building, and image classification. With Dockerized environments, CI/CD pipelines, and PostgreSQL integration, ML-Deploy ensures efficient ML deployment with enhanced maintainability and scalability. This projects value proposition lies in simplifying ML model deployment processes while enabling reliable and performance-driven AI applications.
+[Developper Documentation](https://223mapaction.github.io/ML-Deploy/)
 
 ---
 
