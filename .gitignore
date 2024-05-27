@@ -116,10 +116,9 @@ temp
 *.cert
 *.crt
 
-cv_model/
-/cv_model
-documents/
-/documents
+*.pdf
+
+*.pth
 
 .venv/
 /.venv
