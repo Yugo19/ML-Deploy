@@ -9,3 +9,6 @@ services:
         dockerfile: Dockerfile.CI
       env_file:
         - ~/.cv_deploy.env
+      volumes:
+        - ~/model_path/documents:/documents
+        - ~/model_path/cv_model:/cv_model
