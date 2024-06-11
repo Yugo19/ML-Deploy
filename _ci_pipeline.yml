@@ -3,7 +3,7 @@ version: '3'
 services:
 
     testing:
-      container_name: CI
+      container_name: CI Testing
       build:
         context: .
         dockerfile: Dockerfile.CI
