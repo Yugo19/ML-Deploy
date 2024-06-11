@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.apis import main_router
 from fastapi.middleware.cors import CORSMiddleware
-from .database import *
+from .config import *
 
 app = FastAPI()
 

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, FastAPI, Query, WebSocket, WebSock
 from fastapi.responses import JSONResponse
 from ..services import predict, contextualize, chat_bot, get_response, perform_prediction, fetch_contextual_information, celery_app
 from ..models import ImageModel
-from ..database import database
+from ..config import *
 import json
 import requests
 from ..services.websockets import *
@@ -115,6 +115,8 @@ async def prediction_endpoint(websocket: WebSocket):
             image_path = data.get('image_name')
             sensitive_structures = data.get('sensitive_structures')
             incident_id = data.get('incident_id')
+            user_id = data.get('user_id')
+            session_id = user_id+incident_id
             
             response = requests.get(base_url + image_path)
             if response.status_code != 200:
@@ -126,15 +128,16 @@ async def prediction_endpoint(websocket: WebSocket):
             prediction, probabilities = predict(image)
 
             # Fetch contextual information, impact, and solution
-            get_context = get_response(f"What is a {prediction} in an African zone?")
-            impact = get_response(f"What is the impact of {prediction} on {sensitive_structures}")
-            piste_solution = get_response("What are the possible solutions for the previous case? Assuming it's managed by a local community.")
+            get_context = get_response(f"What is a {prediction} in an African zone?",session_id=session_id)
+            impact = get_response(f"What is the impact of {prediction} on {sensitive_structures}", session_id=session_id)
+            piste_solution = get_response("What are the possible solutions for the previous case? Assuming it's managed by a local community.",session_id=session_id)
             
             query = """
-             INSERT INTO "Mapapi_prediction" (incident_id, incident_type, piste_solution, impact_potentiel, context)
-             VALUES (:incident_id, :incident_type :piste_solution, :impact_potentiel, :context);
+             INSERT INTO "Mapapi_prediction" (prediction_id, incident_id, incident_type, piste_solution, impact_potentiel, context)
+             VALUES (:prediction_id, :incident_id, :incident_type :piste_solution, :impact_potentiel, :context);
              """
             values = {
+                "prediction_id": session_id,
                  "incident_id": data.incident_id,
                  "incideent_type": prediction,
                  "piste_solution": piste_solution,
