@@ -13,6 +13,7 @@ nav:
 
 theme: 
   name: 'mkdocs'
+  logo: 'https://map-action.com/wp-content/uploads/2023/09/Logo-map-action.webp'
 
 plugins:
   - search
