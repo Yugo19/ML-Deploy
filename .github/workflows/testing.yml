@@ -17,3 +17,18 @@ jobs:
     - name: Test with pytest
       run: |
         docker-compose -f _ci_pipeline.yml up --build -d
+
+    - name: Run Tests
+        run: |
+          docker-compose -f _ci_pipeline.yml run --rm testing || true
+
+      - name: Copy Coverage Report
+        run: |
+          container_id=$(docker-compose -f _ci_pipeline.yml ps -q testing)
+          docker cp $container_id:/app/coverage/coverage.xml .
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
